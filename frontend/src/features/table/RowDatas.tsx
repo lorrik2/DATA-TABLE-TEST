@@ -1,28 +1,16 @@
 import React from 'react';
+import { TableData } from './types/Table';
 
-function RowDatas(): JSX.Element {
+function RowDatas({ data }: { data: TableData }): JSX.Element {
+  console.log(data, '--data api');
   return (
     <>
       <tr>
-        <td>Alvin</td>
-        <td>Eclair</td>
-        <td>$0.87</td>
-        <td>$0.87</td>
-        <td>$0.87</td>
-      </tr>
-      <tr>
-        <td>Alan</td>
-        <td>Jellybean</td>
-        <td>$3.76</td>
-        <td>$0.87</td>
-        <td>$0.87</td>
-      </tr>
-      <tr>
-        <td>Jonathan</td>
-        <td>Lollipop</td>
-        <td>$7.00</td>
-        <td>$0.87</td>
-        <td>$0.87</td>
+        <td>{data.id}</td>
+        <td>{data.firstName}</td>
+        <td>{data.lastName}</td>
+        <td>{data.email}</td>
+        <td>{data.phone}</td>
       </tr>
     </>
   );

@@ -1,8 +1,11 @@
 import React from 'react';
 import './styles/tableList.css';
 import RowDatas from './RowDatas';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 function TabaleList(): JSX.Element {
+  const { tableData } = useSelector((store: RootState) => store.tableState);
   return (
     <div>
       <table className="striped">
@@ -17,7 +20,9 @@ function TabaleList(): JSX.Element {
         </thead>
 
         <tbody>
-          <RowDatas />
+          {tableData.map((data) => (
+            <RowDatas key={data.id} data={data} />
+          ))}
         </tbody>
       </table>
     </div>

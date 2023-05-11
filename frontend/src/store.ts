@@ -1,8 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
+import tablesSlice from './features/table/tableSlice';
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    tableState: tablesSlice,
+  },
 });
 
 export type AppDispatch = typeof store.dispatch;
