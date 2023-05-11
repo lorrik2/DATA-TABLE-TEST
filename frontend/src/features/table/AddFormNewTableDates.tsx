@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { PersonAddress, TableData } from './types/Table';
 import { RootState, useAppDispatch } from '../../store';
 import { addNewTableData } from './tableSlice';
 import { useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+import { IMaskInput } from 'react-imask';
 
 function AddFormNewTableDates(): JSX.Element {
   const [firstName, setFirstname] = useState('');
@@ -15,15 +17,15 @@ function AddFormNewTableDates(): JSX.Element {
   const [street, setStreet] = useState('');
   const [zip, setZip] = useState('');
 
-  const { tableData } = useSelector((store: RootState) => store.tableState);
+  const mask = [{ mask: '(000)000-0000' }, { mask: '(000)000-0000' }];
 
   const dispatch = useAppDispatch();
 
   const onHandleFotmSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const validate = tableData.find();
+    // const validate = tableData.find();
     const newTableData: TableData = {
-      id: 1,
+      id: Number(BigInt('0x' + uuidv4().replace(/-/g, ''))),
       firstName,
       lastName,
       email,
@@ -69,12 +71,13 @@ function AddFormNewTableDates(): JSX.Element {
           </div>
           <div className="row">
             <div className="input-field col s12">
-              <input
+              <IMaskInput
                 id="phone"
                 type="tel"
                 className="validate"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                mask={mask}
+                name="phone"
+                onAccept={(value, mask) => setPhone(String(value))}
               />
               <label htmlFor="phone">Phone</label>
             </div>
