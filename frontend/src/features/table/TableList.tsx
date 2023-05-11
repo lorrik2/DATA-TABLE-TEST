@@ -1,14 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './styles/tableList.css';
 import RowDatas from './RowDatas';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import AddFormNewTableDates from './AddFormNewTableDates';
+import BasicModal from './BasicModal';
+import Pagination from './Pagination';
+import { TableData } from './types/Table';
 
-function TabaleList(): JSX.Element {
+function TabaleList({
+  loading,
+  tablePerData,
+  currentTable,
+  paginate,
+}: {
+  loading: boolean;
+  tablePerData: number;
+  currentTable: TableData[];
+  paginate: (value: number) => void;
+}): JSX.Element {
   const { tableData } = useSelector((store: RootState) => store.tableState);
+
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
   return (
     <div>
+      <BasicModal />
       <AddFormNewTableDates />
       <table className="striped">
         <thead>
@@ -22,11 +40,16 @@ function TabaleList(): JSX.Element {
         </thead>
 
         <tbody>
-          {tableData.map((data) => (
+          {currentTable.map((data) => (
             <RowDatas key={data.id} data={data} />
           ))}
         </tbody>
       </table>
+      <Pagination
+        totalTableDates={tableData.length}
+        tablePerData={tablePerData}
+        paginate={paginate}
+      />
     </div>
   );
 }

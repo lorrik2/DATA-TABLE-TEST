@@ -15,7 +15,7 @@ const tablesSlice = createSlice({
   initialState,
   reducers: {
     addNewTableData: (state, action) => {
-      state.tableData = [...state.tableData, action.payload];
+      state.tableData.unshift(action.payload);
     },
   },
   extraReducers: (builder) => {

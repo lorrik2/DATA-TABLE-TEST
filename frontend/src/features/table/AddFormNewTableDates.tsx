@@ -5,6 +5,7 @@ import { addNewTableData } from './tableSlice';
 import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { IMaskInput } from 'react-imask';
+import './styles/tableList.css';
 
 function AddFormNewTableDates(): JSX.Element {
   const [firstName, setFirstname] = useState('');
@@ -23,7 +24,7 @@ function AddFormNewTableDates(): JSX.Element {
 
   const onHandleFotmSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    // const validate = tableData.find();
+
     const newTableData: TableData = {
       id: Number(BigInt('0x' + uuidv4().replace(/-/g, ''))),
       firstName,
@@ -38,16 +39,24 @@ function AddFormNewTableDates(): JSX.Element {
       },
       description,
     };
-    console.log(newTableData);
     dispatch(addNewTableData(newTableData));
+    setFirstname('');
+    setLastName('');
+    setPhone('');
+    setEmail('');
+    setDescription('');
+    setState('');
+    setCity('');
+    setStreet('');
+    setZip('');
   };
 
   return (
-    <div>
+    <div className="forms">
       <h5>Information</h5>
-      <div className="row">
-        <form className="col s12" onSubmit={onHandleFotmSubmit}>
-          <div className="row">
+      <div className="row" style={{ marginBottom: '0px' }}>
+        <form className="col s12 " onSubmit={onHandleFotmSubmit}>
+          <div className="row" style={{ marginBottom: '0px' }}>
             <div className="input-field col s6">
               <input
                 id="first_name"
@@ -69,7 +78,7 @@ function AddFormNewTableDates(): JSX.Element {
               <label htmlFor="last_name">Last Name</label>
             </div>
           </div>
-          <div className="row">
+          <div className="row" style={{ marginBottom: '0px' }}>
             <div className="input-field col s12">
               <IMaskInput
                 id="phone"
@@ -82,7 +91,7 @@ function AddFormNewTableDates(): JSX.Element {
               <label htmlFor="phone">Phone</label>
             </div>
           </div>
-          <div className="row">
+          <div className="row" style={{ marginBottom: '0px' }}>
             <div className="input-field col s12">
               <input
                 id="email"
@@ -97,7 +106,7 @@ function AddFormNewTableDates(): JSX.Element {
               </span>
             </div>
           </div>
-          <div className="row">
+          <div className="row" style={{ marginBottom: '0px' }}>
             <div className="input-field col s12">
               <textarea
                 id="textarea1"
@@ -108,7 +117,7 @@ function AddFormNewTableDates(): JSX.Element {
             </div>
           </div>
           <h5>Address</h5>
-          <div className="row">
+          <div className="row" style={{ marginBottom: '0px' }}>
             <div className="input-field col s6">
               <input
                 id="state"
@@ -130,7 +139,7 @@ function AddFormNewTableDates(): JSX.Element {
               <label htmlFor="city">City</label>
             </div>
           </div>
-          <div className="row">
+          <div className="row " style={{ marginBottom: '0px' }}>
             <div className="input-field col s6">
               <input
                 id="street"

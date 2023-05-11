@@ -2,3 +2,16 @@ table {
   max-width: 80rem;
   margin: 0 auto;
 }
+
+.forms {
+  max-width: 70rem;
+  margin: 0 auto;
+}
+
+.input-field {
+  margin-top: none;
+  margin-bottom: none;
+}
+form .row {
+  margin-bottom: none;
+}
