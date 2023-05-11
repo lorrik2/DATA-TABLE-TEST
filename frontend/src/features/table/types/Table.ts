@@ -1,4 +1,4 @@
-export type PersonAdress = {
+export type PersonAddress = {
   streetAddress: string;
   city: string;
   state: string;
@@ -11,6 +11,6 @@ export type TableData = {
   lastName: string;
   email: string;
   phone: string;
-  address: PersonAdress;
-  isActive: string;
+  address: PersonAddress;
+  description: string;
 };

@@ -3,11 +3,13 @@ import './styles/tableList.css';
 import RowDatas from './RowDatas';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
+import AddFormNewTableDates from './AddFormNewTableDates';
 
 function TabaleList(): JSX.Element {
   const { tableData } = useSelector((store: RootState) => store.tableState);
   return (
     <div>
+      <AddFormNewTableDates />
       <table className="striped">
         <thead>
           <tr>

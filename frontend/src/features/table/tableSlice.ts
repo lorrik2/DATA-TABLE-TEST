@@ -13,11 +13,14 @@ export const getTableDates = createAsyncThunk('tables/getData', () => api.getTab
 const tablesSlice = createSlice({
   name: 'tables',
   initialState,
-  reducers: {},
+  reducers: {
+    addNewTableData: (state, action) => {
+      state.tableData = [...state.tableData, action.payload];
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getTableDates.fulfilled, (state, action) => {
-        console.log(action);
         state.tableData = action.payload;
       })
       .addCase(getTableDates.rejected, (state, action) => {
@@ -25,5 +28,7 @@ const tablesSlice = createSlice({
       });
   },
 });
+
+export const { addNewTableData } = tablesSlice.actions;
 
 export default tablesSlice.reducer;

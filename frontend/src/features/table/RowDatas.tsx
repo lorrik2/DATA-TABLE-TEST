@@ -2,7 +2,6 @@ import React from 'react';
 import { TableData } from './types/Table';
 
 function RowDatas({ data }: { data: TableData }): JSX.Element {
-  console.log(data, '--data api');
   return (
     <>
       <tr>
