@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { IMaskInput } from 'react-imask';
 import './styles/tableList.css';
 
-function AddFormNewTableDates(): JSX.Element {
+function AddFormNewTableDates({ closeModal }: { closeModal: () => void }): JSX.Element {
   const [firstName, setFirstname] = useState('');
   const [lastName, setLastName] = useState('');
   const [phone, setPhone] = useState('');
@@ -163,7 +163,10 @@ function AddFormNewTableDates(): JSX.Element {
           </div>
 
           <button type="submit" className="waves-effect waves-light btn">
-            button
+            ADD
+          </button>
+          <button type="button" className="waves-effect waves-light btn" onClick={closeModal}>
+            CLOSE
           </button>
         </form>
       </div>

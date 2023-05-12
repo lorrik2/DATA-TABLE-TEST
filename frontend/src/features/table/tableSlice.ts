@@ -17,6 +17,9 @@ const tablesSlice = createSlice({
     addNewTableData: (state, action) => {
       state.tableData.unshift(action.payload);
     },
+    sortTableDates: (state, action) => {
+      state.tableData = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -29,6 +32,6 @@ const tablesSlice = createSlice({
   },
 });
 
-export const { addNewTableData } = tablesSlice.actions;
+export const { addNewTableData, sortTableDates } = tablesSlice.actions;
 
 export default tablesSlice.reducer;

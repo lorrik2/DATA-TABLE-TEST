@@ -16,7 +16,7 @@ function Pagination({
   }
 
   return (
-    <ul className="pagination">
+    <ul className="pagination col s2">
       {pageNumbers?.map((number) => (
         <li className="waves-effect" key={number}>
           <a href="#!" onClick={() => paginate(number)}>

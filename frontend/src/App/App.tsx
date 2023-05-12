@@ -20,10 +20,15 @@ function App(): JSX.Element {
   }, [dispatch]);
 
   const lastTablePersonIndex = currentPage * tablePerData;
+  const lastPaginatePage = Math.ceil(tableData.length / tablePerData);
   const firstTablePersonIndex = lastTablePersonIndex - tablePerData;
   const currentTable = tableData.slice(firstTablePersonIndex, lastTablePersonIndex);
 
   const paginate = (pageNumber: number): void => setCurrentPage(pageNumber);
+
+  const nextPage = (): void =>
+    setCurrentPage((prev) => (prev >= lastPaginatePage ? lastPaginatePage : prev + 1));
+  const prevPage = (): void => setCurrentPage((prev) => (prev !== 1 ? prev - 1 : 1));
 
   return (
     <div className="App">
@@ -32,6 +37,8 @@ function App(): JSX.Element {
         loading={loading}
         tablePerData={tablePerData}
         paginate={paginate}
+        nextPage={nextPage}
+        prevPage={prevPage}
       />
     </div>
   );

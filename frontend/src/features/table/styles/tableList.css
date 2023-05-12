@@ -15,3 +15,9 @@ table {
 form .row {
   margin-bottom: none;
 }
+
+.paginate-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
