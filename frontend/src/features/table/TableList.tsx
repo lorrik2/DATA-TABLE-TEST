@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './styles/tableList.css';
-import RowDatas from './RowDatas';
+import RowData from './RowData';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../store';
-import AddFormNewTableDates from './AddFormNewTableDates';
 import Pagination from './Pagination';
 import { TableData } from './types/Table';
 import Preloader from './Preloader';
 import { sortTableDates } from './tableSlice';
-import Modal from './Modal';
+import Modal from './modal/Modal';
+import InfoContact from './infoBlock/InfoContact';
 
 function TabaleList({
   loading,
@@ -31,6 +31,8 @@ function TabaleList({
   const [sortStatus, setSortStatus] = useState(false);
   const [sortedBy, setSortedBy] = useState('');
   const [icon, setIcon] = useState('▼');
+  const [status, setStatus] = useState(false);
+  const [info, setInfo] = useState<TableData | undefined>();
 
   const dispatch = useAppDispatch();
 
@@ -39,11 +41,22 @@ function TabaleList({
     const sortData = copyData.sort((a, b) => {
       return sortStatus ? (a[sortBy] < b[sortBy] ? 1 : -1) : a[sortBy] > b[sortBy] ? 1 : -1;
     });
+
+    const filteredData = sortData.filter((item, index, self) => {
+      return index === self.findIndex((t) => t.id === item.id);
+    });
+
     dispatch(sortTableDates(sortData));
     setSortedBy(sortBy);
     setSortStatus(!sortStatus);
     setIcon(sortStatus ? '▼' : '▲');
   };
+
+  const onHandleClickRow = (data: TableData): void => {
+    setInfo(data);
+  };
+
+  console.log(currentTable, 'hjbvsfhebhj');
 
   if (loading) {
     return <Preloader />;
@@ -72,7 +85,12 @@ function TabaleList({
 
         <tbody>
           {currentTable.map((data) => (
-            <RowDatas key={data.id} data={data} />
+            <RowData
+              key={data.id}
+              data={data}
+              onHandleClickRow={onHandleClickRow}
+              setStatus={setStatus}
+            />
           ))}
         </tbody>
       </table>
@@ -86,6 +104,7 @@ function TabaleList({
           nextPage={nextPage}
         />
       </div>
+      {status && <InfoContact info={info} setStatus={setStatus} />}
     </div>
   );
 }

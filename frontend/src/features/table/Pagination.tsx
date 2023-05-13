@@ -15,15 +15,20 @@ function Pagination({
   prevPage: () => void;
   nextPage: () => void;
 }): JSX.Element {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentsPage, setCurrentsPage] = useState(1);
   const pageNumbers = [];
+
+  console.log(paginate);
+
+  console.log(currentsPage);
 
   for (let i = 1; i <= Math.ceil(totalTableDates / tablePerData); i++) {
     pageNumbers.push(i);
   }
+  console.log(pageNumbers);
 
-  const isLastPage = currentPage === pageNumbers[pageNumbers.length - 1];
-  const isFirstPage = currentPage === pageNumbers[0];
+  const isLastPage = currentsPage === pageNumbers[pageNumbers.length - 1];
+  const isFirstPage = currentsPage === pageNumbers[0];
 
   return (
     <ul className="pagination col s2" ref={liRef}>
@@ -33,8 +38,8 @@ function Pagination({
             className="material-icons"
             onClick={() => {
               if (!isFirstPage) {
-                setCurrentPage(Math.max(currentPage - 1, 1));
-                paginate(Math.max(currentPage - 1, 1));
+                setCurrentsPage(Math.max(currentsPage - 1, 1));
+                paginate(Math.max(currentsPage - 1, 1));
               }
             }}>
             chevron_left
@@ -43,10 +48,10 @@ function Pagination({
       </li>
       {pageNumbers.map((number) => (
         <li
-          className={number === currentPage ? 'waves-effect active' : 'waves-effect'}
+          className={number === currentsPage ? 'waves-effect active' : 'waves-effect'}
           key={number}
           onClick={() => {
-            setCurrentPage(number);
+            setCurrentsPage(number);
             paginate(number);
           }}>
           <a href="#!">{number}</a>
@@ -58,8 +63,8 @@ function Pagination({
             className="material-icons"
             onClick={() => {
               if (!isLastPage) {
-                setCurrentPage(currentPage + 1);
-                paginate(currentPage + 1);
+                setCurrentsPage(currentsPage + 1);
+                paginate(currentsPage + 1);
               }
             }}>
             chevron_right

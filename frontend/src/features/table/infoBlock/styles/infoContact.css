@@ -1,0 +1,15 @@
+.center-contact {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  max-width: 100rem;
+}
+.block_contact {
+  background-color: #26a69a;
+  color: #fff;
+}
+
+.text-a {
+  color: #fff;
+  height: 75px;
+}

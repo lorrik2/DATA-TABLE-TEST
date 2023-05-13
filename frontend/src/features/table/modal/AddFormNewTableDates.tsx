@@ -1,11 +1,10 @@
 import React, { useRef, useState } from 'react';
-import { PersonAddress, TableData } from './types/Table';
-import { RootState, useAppDispatch } from '../../store';
-import { addNewTableData } from './tableSlice';
-import { useSelector } from 'react-redux';
+import { PersonAddress, TableData } from '../types/Table';
+import { RootState, useAppDispatch } from '../../../store';
+import { addNewTableData } from '../tableSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { IMaskInput } from 'react-imask';
-import './styles/tableList.css';
+import './styles/modal.css';
 
 function AddFormNewTableDates({ closeModal }: { closeModal: () => void }): JSX.Element {
   const [firstName, setFirstname] = useState('');
