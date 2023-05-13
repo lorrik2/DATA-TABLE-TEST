@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import TableList from '../features/table/TableList';
 import { RootState, useAppDispatch } from '../store';
@@ -23,8 +23,18 @@ function App(): JSX.Element {
   const lastPaginatePage = Math.ceil(tableData.length / tablePerData);
   const firstTablePersonIndex = lastTablePersonIndex - tablePerData;
   const currentTable = tableData.slice(firstTablePersonIndex, lastTablePersonIndex);
+  const liRef = useRef<HTMLUListElement>(null);
 
-  const paginate = (pageNumber: number): void => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number): void => {
+    setCurrentPage(pageNumber);
+    if (liRef.current) {
+      const li = liRef.current.querySelectorAll('li');
+      li.forEach((el) => {
+        el.className = 'waves-effect';
+      });
+      li[pageNumber - 1].className = 'waves-effect active';
+    }
+  };
 
   const nextPage = (): void =>
     setCurrentPage((prev) => (prev >= lastPaginatePage ? lastPaginatePage : prev + 1));
@@ -39,6 +49,7 @@ function App(): JSX.Element {
         paginate={paginate}
         nextPage={nextPage}
         prevPage={prevPage}
+        liRef={liRef}
       />
     </div>
   );

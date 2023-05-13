@@ -17,6 +17,7 @@ function TabaleList({
   paginate,
   nextPage,
   prevPage,
+  liRef,
 }: {
   loading: boolean;
   tablePerData: number;
@@ -24,6 +25,7 @@ function TabaleList({
   paginate: (value: number) => void;
   nextPage: () => void;
   prevPage: () => void;
+  liRef: React.RefObject<HTMLUListElement>;
 }): JSX.Element {
   const { tableData } = useSelector((store: RootState) => store.tableState);
   const [sortStatus, setSortStatus] = useState(false);
@@ -82,6 +84,7 @@ function TabaleList({
           totalTableDates={tableData.length}
           tablePerData={tablePerData}
           paginate={paginate}
+          liRef={liRef}
         />
         <i className="material-icons col s1" onClick={nextPage} style={{ cursor: 'pointer' }}>
           arrow_forward
