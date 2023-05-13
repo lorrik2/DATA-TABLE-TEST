@@ -25,20 +25,30 @@ function App(): JSX.Element {
   const currentTable = tableData.slice(firstTablePersonIndex, lastTablePersonIndex);
   const liRef = useRef<HTMLUListElement>(null);
 
+  const prevPage = (): void => setCurrentPage((prev) => (prev > 1 ? prev - 1 : 1));
+  const nextPage = (): void =>
+    setCurrentPage((prev) => (prev < lastPaginatePage ? prev + 1 : lastPaginatePage));
+
   const paginate = (pageNumber: number): void => {
     setCurrentPage(pageNumber);
+    prevPage();
+    nextPage();
     if (liRef.current) {
       const li = liRef.current.querySelectorAll('li');
       li.forEach((el) => {
-        el.className = 'waves-effect';
+        if (el.dataset.number === String(pageNumber)) {
+          el.className = 'waves-effect active';
+        } else if (
+          el.dataset.number === String(1) ||
+          el.dataset.number === String(lastPaginatePage)
+        ) {
+          el.className = 'disabled';
+        } else {
+          el.className = 'waves-effect';
+        }
       });
-      li[pageNumber - 1].className = 'waves-effect active';
     }
   };
-
-  const nextPage = (): void =>
-    setCurrentPage((prev) => (prev >= lastPaginatePage ? lastPaginatePage : prev + 1));
-  const prevPage = (): void => setCurrentPage((prev) => (prev !== 1 ? prev - 1 : 1));
 
   return (
     <div className="App">

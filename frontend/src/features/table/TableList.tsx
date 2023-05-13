@@ -77,18 +77,14 @@ function TabaleList({
         </tbody>
       </table>
       <div className="paginate-center">
-        <i className="material-icons col s1" onClick={prevPage} style={{ cursor: 'pointer' }}>
-          arrow_back
-        </i>
         <Pagination
           totalTableDates={tableData.length}
           tablePerData={tablePerData}
           paginate={paginate}
           liRef={liRef}
+          prevPage={prevPage}
+          nextPage={nextPage}
         />
-        <i className="material-icons col s1" onClick={nextPage} style={{ cursor: 'pointer' }}>
-          arrow_forward
-        </i>
       </div>
     </div>
   );
