@@ -21,3 +21,7 @@ form .row {
   align-items: center;
   justify-content: center;
 }
+
+table.striped > tbody > tr:nth-child(odd) {
+  background-color: rgba(165, 185, 231, 0.559);
+}

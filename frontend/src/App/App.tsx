@@ -13,11 +13,11 @@ function App(): JSX.Element {
   const [tablePerData] = useState(10);
   const [contactData, setContactData] = useState<TableData[]>([]);
   const [caseCurrent, setCaseCurrent] = useState<number>(1);
-  //  console.log(contastData, '---');
+  const [textSearch, setTextSearch] = useState('');
+  const [result, setResult] = useState('');
 
   const { tableData } = useSelector((store: RootState) => store.tableState);
 
-  console.log(tableData, '');
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -30,10 +30,36 @@ function App(): JSX.Element {
     setContactData(tableData);
   }, [tableData]);
 
+  const onHandleSubmitForm = (
+    e: React.FormEvent<HTMLFormElement> | React.FocusEvent<HTMLInputElement>
+  ): void => {
+    e.preventDefault();
+    setResult(textSearch);
+  };
+
+  const filterData = (): TableData[] => {
+    if (!result) {
+      return contactData;
+    }
+    return contactData.filter((data) =>
+      data.firstName.toLowerCase().includes(result.toLowerCase())
+    );
+  };
+  //    const values = Object.values(data);
+  //    values.forEach((el) => el === result);
+  //  });
+
+  const filerTable = filterData();
+
+  console.log(filerTable, '-------');
+
+  console.log(result);
+  //  console.log(filterData);
+
   const lastTablePersonIndex = currentPage * tablePerData;
   const lastPaginatePage = Math.ceil(tableData.length / tablePerData);
-  const firstTablePersonIndex = lastTablePersonIndex - tablePerData + 1;
-  const currentTable = contactData.slice(firstTablePersonIndex, lastTablePersonIndex);
+  const firstTablePersonIndex = lastTablePersonIndex - tablePerData;
+  const currentTable = filerTable.slice(firstTablePersonIndex, lastTablePersonIndex);
   const liRef = useRef<HTMLUListElement>(null);
 
   const prevPage = (): void => setCaseCurrent((prev) => (prev > 1 ? prev - 1 : 1));
@@ -41,7 +67,6 @@ function App(): JSX.Element {
     setCaseCurrent((prev) => (prev < lastPaginatePage ? prev + 1 : lastPaginatePage));
 
   const paginate = (pageNumber: number): void => {
-    console.log(pageNumber, 'TEST');
     setCurrentPage(pageNumber);
     setCaseCurrent(currentPage);
     prevPage();
@@ -65,11 +90,16 @@ function App(): JSX.Element {
 
   return (
     <div className="App">
-      <SearchCompo />
+      <SearchCompo
+        onHandleSubmitForm={onHandleSubmitForm}
+        textSearch={textSearch}
+        setTextSearch={setTextSearch}
+      />
       <TableList
         currentTable={currentTable}
         loading={loading}
         tablePerData={tablePerData}
+        filerTable={filerTable}
         paginate={paginate}
         nextPage={nextPage}
         prevPage={prevPage}

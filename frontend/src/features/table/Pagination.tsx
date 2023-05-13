@@ -18,14 +18,9 @@ function Pagination({
   const [currentsPage, setCurrentsPage] = useState(1);
   const pageNumbers = [];
 
-  console.log(paginate);
-
-  console.log(currentsPage);
-
   for (let i = 1; i <= Math.ceil(totalTableDates / tablePerData); i++) {
     pageNumbers.push(i);
   }
-  console.log(pageNumbers);
 
   const isLastPage = currentsPage === pageNumbers[pageNumbers.length - 1];
   const isFirstPage = currentsPage === pageNumbers[0];

@@ -17,6 +17,7 @@ function TabaleList({
   paginate,
   nextPage,
   prevPage,
+  filerTable,
   liRef,
 }: {
   loading: boolean;
@@ -25,6 +26,7 @@ function TabaleList({
   paginate: (value: number) => void;
   nextPage: () => void;
   prevPage: () => void;
+  filerTable: TableData[];
   liRef: React.RefObject<HTMLUListElement>;
 }): JSX.Element {
   const { tableData } = useSelector((store: RootState) => store.tableState);
@@ -55,8 +57,6 @@ function TabaleList({
   const onHandleClickRow = (data: TableData): void => {
     setInfo(data);
   };
-
-  console.log(currentTable, 'hjbvsfhebhj');
 
   if (loading) {
     return <Preloader />;
@@ -96,7 +96,7 @@ function TabaleList({
       </table>
       <div className="paginate-center">
         <Pagination
-          totalTableDates={tableData.length}
+          totalTableDates={filerTable.length}
           tablePerData={tablePerData}
           paginate={paginate}
           liRef={liRef}

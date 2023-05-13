@@ -2,28 +2,38 @@ import React, { useState } from 'react';
 import { TableData } from '../types/Table';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
+import './styles/searchIpm.css';
+import Modal from '../modal/Modal';
 
-function SearchCompo(): JSX.Element {
-  const [textSearch, setTextSearch] = useState('');
-  const [result, setResult] = useState('');
-  const { tableData } = useSelector((store: RootState) => store.tableState);
+function SearchCompo({
+  onHandleSubmitForm,
+  textSearch,
+  setTextSearch,
+}: {
+  onHandleSubmitForm: (
+    val: React.FormEvent<HTMLFormElement> | React.FocusEvent<HTMLInputElement>
+  ) => void;
+  textSearch: string;
+  setTextSearch: (val: string) => void;
+}): JSX.Element {
+  //  const { tableData } = useSelector((store: RootState) => store.tableState);
 
-  const onHandleSubmitForm = (
-    e: React.FormEvent<HTMLFormElement> | React.FocusEvent<HTMLInputElement>
-  ): void => {
-    e.preventDefault();
-    setResult(textSearch);
-    setTextSearch('');
-  };
+  //  const onHandleSubmitForm = (
+  //    e: React.FormEvent<HTMLFormElement> | React.FocusEvent<HTMLInputElement>
+  //  ): void => {
+  //    e.preventDefault();
+  //    setResult(textSearch);
+  //    setTextSearch('');
+  //  };
 
-  const filterData = tableData.filter((data) => {
-    data.firstName.toLowerCase().includes(result.toLowerCase());
-  });
-  //    const values = Object.values(data);
-  //    values.forEach((el) => el === result);
+  //  const filterData = tableData.filter((data) => {
+  //    data.firstName.toLowerCase().includes(result.toLowerCase());
   //  });
+  //  //    const values = Object.values(data);
+  //  //    values.forEach((el) => el === result);
+  //  //  });
 
-  console.log(filterData);
+  //  console.log(filterData);
 
   return (
     <form onSubmit={onHandleSubmitForm}>
