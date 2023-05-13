@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
-import { PersonAddress, TableData } from '../types/Table';
-import { RootState, useAppDispatch } from '../../../store';
+import React, { useState } from 'react';
+import { TableData } from '../types/Table';
+import { useAppDispatch } from '../../../store';
 import { addNewTableData } from '../tableSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { IMaskInput } from 'react-imask';

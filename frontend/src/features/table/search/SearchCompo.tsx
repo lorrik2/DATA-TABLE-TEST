@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
-import { TableData } from '../types/Table';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store';
+import React from 'react';
+
 import './styles/searchIpm.css';
-import Modal from '../modal/Modal';
 
 function SearchCompo({
   onHandleSubmitForm,
@@ -16,27 +13,8 @@ function SearchCompo({
   textSearch: string;
   setTextSearch: (val: string) => void;
 }): JSX.Element {
-  //  const { tableData } = useSelector((store: RootState) => store.tableState);
-
-  //  const onHandleSubmitForm = (
-  //    e: React.FormEvent<HTMLFormElement> | React.FocusEvent<HTMLInputElement>
-  //  ): void => {
-  //    e.preventDefault();
-  //    setResult(textSearch);
-  //    setTextSearch('');
-  //  };
-
-  //  const filterData = tableData.filter((data) => {
-  //    data.firstName.toLowerCase().includes(result.toLowerCase());
-  //  });
-  //  //    const values = Object.values(data);
-  //  //    values.forEach((el) => el === result);
-  //  //  });
-
-  //  console.log(filterData);
-
   return (
-    <form onSubmit={onHandleSubmitForm}>
+    <form onSubmit={onHandleSubmitForm} className="search-form">
       <div className="row">
         <div className="col s12">
           <div className="row">

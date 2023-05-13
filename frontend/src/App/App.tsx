@@ -6,6 +6,7 @@ import { getTableDates } from '../features/table/tableSlice';
 import { useSelector } from 'react-redux';
 import { TableData } from '../features/table/types/Table';
 import SearchCompo from '../features/table/search/SearchCompo';
+import Modal from '../features/table/modal/Modal';
 
 function App(): JSX.Element {
   const [loading, setLoading] = useState(false);
@@ -45,16 +46,12 @@ function App(): JSX.Element {
       data.firstName.toLowerCase().includes(result.toLowerCase())
     );
   };
-  //    const values = Object.values(data);
-  //    values.forEach((el) => el === result);
-  //  });
 
   const filerTable = filterData();
 
   console.log(filerTable, '-------');
 
   console.log(result);
-  //  console.log(filterData);
 
   const lastTablePersonIndex = currentPage * tablePerData;
   const lastPaginatePage = Math.ceil(tableData.length / tablePerData);
@@ -90,6 +87,7 @@ function App(): JSX.Element {
 
   return (
     <div className="App">
+      <Modal />
       <SearchCompo
         onHandleSubmitForm={onHandleSubmitForm}
         textSearch={textSearch}

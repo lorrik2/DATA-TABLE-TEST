@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './styles/tableList.css';
 import RowData from './RowData';
 import { useSelector } from 'react-redux';
@@ -7,7 +7,7 @@ import Pagination from './Pagination';
 import { TableData } from './types/Table';
 import Preloader from './Preloader';
 import { sortTableDates } from './tableSlice';
-import Modal from './modal/Modal';
+
 import InfoContact from './infoBlock/InfoContact';
 
 function TabaleList({
@@ -63,7 +63,6 @@ function TabaleList({
   }
   return (
     <div>
-      <Modal />
       <table className="striped">
         <thead>
           <tr>
