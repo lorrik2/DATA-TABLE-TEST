@@ -27,9 +27,9 @@ function App(): JSX.Element {
 
   useEffect(() => {
     dispatch(replay([]));
+    setLoading(true);
     dispatch(getTableDate(reqQwr));
-    setLoading(false);
-  }, [dispatch, reqQwr, loading]);
+  }, [dispatch, reqQwr]);
 
   useEffect(() => {
     if (tableData.length === 32) {
@@ -40,6 +40,12 @@ function App(): JSX.Element {
       setContactData(tableData);
     }
   }, [tableData]);
+
+  useEffect(() => {
+    if (tableData.length > 0) {
+      setLoading(false);
+    }
+  }, [tableData, contactData]);
 
   console.log(contactData);
 
@@ -54,8 +60,13 @@ function App(): JSX.Element {
     if (!result) {
       return contactData;
     }
-    return contactData.filter((data) =>
-      data.firstName.toLowerCase().includes(result.toLowerCase())
+    return contactData.filter(
+      (data) =>
+        data.firstName.toLowerCase().includes(result.toLowerCase()) ||
+        data.lastName.toLowerCase().includes(result.toLowerCase()) ||
+        data.email.toLowerCase().includes(result.toLowerCase()) ||
+        data.phone.toLowerCase().includes(result.toLowerCase()) ||
+        data.id.toString().includes(result.toString())
     );
   };
 
@@ -95,31 +106,34 @@ function App(): JSX.Element {
 
   return (
     <div className="App">
-      <QueryDataSmall setReqQwrt={setReqQwrt} />
+      <QueryDataSmall setReqQwrt={setReqQwrt} setLoading={setLoading} loading={loading} />
       <span style={{ color: 'blue' }}> or </span>
-      <QueryDataBig setReqQwrt={setReqQwrt} />
+      <QueryDataBig setReqQwrt={setReqQwrt} setLoading={setLoading} loading={loading} />
       {reqQwr !== '' && (
         <>
-          <Modal />
-          <SearchCompo
-            onHandleSubmitForm={onHandleSubmitForm}
-            textSearch={textSearch}
-            setTextSearch={setTextSearch}
-          />
           {loading ? (
             <Preloader />
           ) : (
-            <TableList
-              contactData={contactData}
-              currentTable={currentTable}
-              loading={loading}
-              tablePerData={tablePerData}
-              filerTable={filerTable}
-              paginate={paginate}
-              nextPage={nextPage}
-              prevPage={prevPage}
-              liRef={liRef}
-            />
+            <>
+              <Modal />
+              <SearchCompo
+                onHandleSubmitForm={onHandleSubmitForm}
+                textSearch={textSearch}
+                setTextSearch={setTextSearch}
+              />
+              <TableList
+                contactData={contactData}
+                currentTable={currentTable}
+                loading={loading}
+                tablePerData={tablePerData}
+                filerTable={filerTable}
+                paginate={paginate}
+                nextPage={nextPage}
+                prevPage={prevPage}
+                liRef={liRef}
+                setResult={setResult}
+              />
+            </>
           )}
         </>
       )}

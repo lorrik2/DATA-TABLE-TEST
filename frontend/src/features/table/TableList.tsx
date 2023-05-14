@@ -20,6 +20,7 @@ function TabaleList({
   filerTable,
   liRef,
   contactData,
+  setResult,
 }: {
   loading: boolean;
   tablePerData: number;
@@ -30,6 +31,7 @@ function TabaleList({
   filerTable: TableData[];
   liRef: React.RefObject<HTMLUListElement>;
   contactData: TableData[];
+  setResult: (val: string) => void;
 }): JSX.Element {
   const { tableData } = useSelector((store: RootState) => store.tableState);
   const [sortStatus, setSortStatus] = useState(false);
@@ -60,41 +62,55 @@ function TabaleList({
     setInfo(data);
   };
 
+  const onHandelClickBack = (): void => setResult('');
+
   if (loading) {
     return <Preloader />;
   }
   return (
     <div>
-      <table className="striped">
-        <thead>
-          <tr>
-            <th onClick={() => sortTableColumns('id')}>Id {sortedBy === 'id' ? icon : '▼'}</th>
-            <th onClick={() => sortTableColumns('firstName')}>
-              First Name {sortedBy === 'firstName' ? icon : '▼'}
-            </th>
-            <th onClick={() => sortTableColumns('lastName')}>
-              Last Name {sortedBy === 'lastName' ? icon : '▼'}
-            </th>
-            <th onClick={() => sortTableColumns('email')}>
-              Email {sortedBy === 'email' ? icon : '▼'}
-            </th>
-            <th onClick={() => sortTableColumns('phone')}>
-              Phone {sortedBy === 'phone' ? icon : '▼'}
-            </th>
-          </tr>
-        </thead>
+      {currentTable.length > 0 ? (
+        <table className="striped">
+          <thead>
+            <tr>
+              <th onClick={() => sortTableColumns('id')}>Id {sortedBy === 'id' ? icon : '▼'}</th>
+              <th onClick={() => sortTableColumns('firstName')}>
+                First Name {sortedBy === 'firstName' ? icon : '▼'}
+              </th>
+              <th onClick={() => sortTableColumns('lastName')}>
+                Last Name {sortedBy === 'lastName' ? icon : '▼'}
+              </th>
+              <th onClick={() => sortTableColumns('email')}>
+                Email {sortedBy === 'email' ? icon : '▼'}
+              </th>
+              <th onClick={() => sortTableColumns('phone')}>
+                Phone {sortedBy === 'phone' ? icon : '▼'}
+              </th>
+            </tr>
+          </thead>
 
-        <tbody>
-          {currentTable.map((data) => (
-            <RowData
-              key={data.id + data.phone}
-              data={data}
-              onHandleClickRow={onHandleClickRow}
-              setStatus={setStatus}
-            />
-          ))}
-        </tbody>
-      </table>
+          <tbody>
+            {currentTable.map((data) => (
+              <RowData
+                key={data.id + data.phone}
+                data={data}
+                onHandleClickRow={onHandleClickRow}
+                setStatus={setStatus}
+              />
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <>
+          <h2>I'm sorry, but there is no contact.</h2>
+          <h4>Try something else.</h4>
+
+          <a className="waves-effect waves-light btn" onClick={onHandelClickBack}>
+            Back
+          </a>
+        </>
+      )}
+
       <div className="paginate-center">
         <Pagination
           totalTableDates={filerTable.length}
