@@ -2,34 +2,46 @@ import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import TableList from '../features/table/TableList';
 import { RootState, useAppDispatch } from '../store';
-import { getTableDates } from '../features/table/tableSlice';
 import { useSelector } from 'react-redux';
 import { TableData } from '../features/table/types/Table';
 import SearchCompo from '../features/table/search/SearchCompo';
 import Modal from '../features/table/modal/Modal';
+import Preloader from '../features/table/loading/Preloader';
+import QueryDataSmall from '../features/table/query/QueryDataSmall';
+import QueryDataBig from '../features/table/query/QueryDataBig';
+import { getTableDate, replay } from '../features/table/tableSlice';
 
 function App(): JSX.Element {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [tablePerData] = useState(10);
+  const [tablePerData, setTablePerData] = useState(10);
   const [contactData, setContactData] = useState<TableData[]>([]);
   const [caseCurrent, setCaseCurrent] = useState<number>(1);
   const [textSearch, setTextSearch] = useState('');
   const [result, setResult] = useState('');
+  const [reqQwr, setReqQwrt] = useState('');
 
   const { tableData } = useSelector((store: RootState) => store.tableState);
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setLoading(true);
-    dispatch(getTableDates());
+    dispatch(replay([]));
+    dispatch(getTableDate(reqQwr));
     setLoading(false);
-  }, [dispatch]);
+  }, [dispatch, reqQwr, loading]);
 
   useEffect(() => {
-    setContactData(tableData);
+    if (tableData.length === 1000) {
+      setTablePerData(50);
+      setContactData(tableData);
+    } else {
+      setTablePerData(10);
+      setContactData(tableData);
+    }
   }, [tableData]);
+
+  console.log(contactData);
 
   const onHandleSubmitForm = (
     e: React.FormEvent<HTMLFormElement> | React.FocusEvent<HTMLInputElement>
@@ -48,10 +60,6 @@ function App(): JSX.Element {
   };
 
   const filerTable = filterData();
-
-  console.log(filerTable, '-------');
-
-  console.log(result);
 
   const lastTablePersonIndex = currentPage * tablePerData;
   const lastPaginatePage = Math.ceil(tableData.length / tablePerData);
@@ -87,22 +95,34 @@ function App(): JSX.Element {
 
   return (
     <div className="App">
-      <Modal />
-      <SearchCompo
-        onHandleSubmitForm={onHandleSubmitForm}
-        textSearch={textSearch}
-        setTextSearch={setTextSearch}
-      />
-      <TableList
-        currentTable={currentTable}
-        loading={loading}
-        tablePerData={tablePerData}
-        filerTable={filerTable}
-        paginate={paginate}
-        nextPage={nextPage}
-        prevPage={prevPage}
-        liRef={liRef}
-      />
+      <QueryDataSmall setReqQwrt={setReqQwrt} />
+      <span style={{ color: 'blue' }}> or </span>
+      <QueryDataBig setReqQwrt={setReqQwrt} />
+      {reqQwr !== '' && (
+        <>
+          <Modal />
+          <SearchCompo
+            onHandleSubmitForm={onHandleSubmitForm}
+            textSearch={textSearch}
+            setTextSearch={setTextSearch}
+          />
+          {loading ? (
+            <Preloader />
+          ) : (
+            <TableList
+              contactData={contactData}
+              currentTable={currentTable}
+              loading={loading}
+              tablePerData={tablePerData}
+              filerTable={filerTable}
+              paginate={paginate}
+              nextPage={nextPage}
+              prevPage={prevPage}
+              liRef={liRef}
+            />
+          )}
+        </>
+      )}
     </div>
   );
 }

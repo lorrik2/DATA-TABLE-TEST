@@ -8,12 +8,17 @@ const initialState: State = {
   error: undefined,
 };
 
-export const getTableDates = createAsyncThunk('tables/getData', () => api.getTableDates());
+export const getTableDate = createAsyncThunk('tables/getTableDate', (option: string) =>
+  api.getTableDates(option)
+);
 
 const tablesSlice = createSlice({
   name: 'tables',
   initialState,
   reducers: {
+    replay: (state, action) => {
+      state.tableData = action.payload;
+    },
     addNewTableData: (state, action) => {
       state.tableData.unshift(action.payload);
     },
@@ -23,15 +28,15 @@ const tablesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getTableDates.fulfilled, (state, action) => {
+      .addCase(getTableDate.fulfilled, (state, action) => {
         state.tableData = action.payload;
       })
-      .addCase(getTableDates.rejected, (state, action) => {
+      .addCase(getTableDate.rejected, (state, action) => {
         state.error = action.error.message;
       });
   },
 });
 
-export const { addNewTableData, sortTableDates } = tablesSlice.actions;
+export const { addNewTableData, sortTableDates, replay } = tablesSlice.actions;
 
 export default tablesSlice.reducer;

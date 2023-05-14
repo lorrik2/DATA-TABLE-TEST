@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../store';
 import Pagination from './Pagination';
 import { TableData } from './types/Table';
-import Preloader from './Preloader';
+import Preloader from './loading/Preloader';
 import { sortTableDates } from './tableSlice';
 
 import InfoContact from './infoBlock/InfoContact';
@@ -19,6 +19,7 @@ function TabaleList({
   prevPage,
   filerTable,
   liRef,
+  contactData,
 }: {
   loading: boolean;
   tablePerData: number;
@@ -28,6 +29,7 @@ function TabaleList({
   prevPage: () => void;
   filerTable: TableData[];
   liRef: React.RefObject<HTMLUListElement>;
+  contactData: TableData[];
 }): JSX.Element {
   const { tableData } = useSelector((store: RootState) => store.tableState);
   const [sortStatus, setSortStatus] = useState(false);
@@ -40,12 +42,11 @@ function TabaleList({
 
   const sortTableColumns = (sortBy: keyof TableData): void => {
     const copyData = tableData.concat();
-    const sortData = copyData.sort((a, b) => {
-      return sortStatus ? (a[sortBy] < b[sortBy] ? 1 : -1) : a[sortBy] > b[sortBy] ? 1 : -1;
-    });
-
-    const filteredData = sortData.filter((item, index, self) => {
+    const filteredData = copyData.filter((item, index, self) => {
       return index === self.findIndex((t) => t.id === item.id);
+    });
+    const sortData = filteredData.sort((a, b) => {
+      return sortStatus ? (a[sortBy] < b[sortBy] ? 1 : -1) : a[sortBy] > b[sortBy] ? 1 : -1;
     });
 
     dispatch(sortTableDates(sortData));
