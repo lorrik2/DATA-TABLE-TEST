@@ -5,6 +5,7 @@ import { addNewTableData } from '../tableSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { IMaskInput } from 'react-imask';
 import './styles/modal.css';
+import { useInput } from '../../hooks/useInput';
 
 function AddFormNewTableDates({ closeModal }: { closeModal: () => void }): JSX.Element {
   const [firstName, setFirstname] = useState('');
@@ -50,6 +51,9 @@ function AddFormNewTableDates({ closeModal }: { closeModal: () => void }): JSX.E
     setZip('');
   };
 
+  const stringInp = useInput('', { isEmpty: true, minLengthError: 1, isString: true });
+  const emailInp = useInput('', { isEmpty: true, minLengthError: 1, isEmailError: true });
+
   return (
     <div className="forms">
       <h5>Information</h5>
@@ -57,22 +61,38 @@ function AddFormNewTableDates({ closeModal }: { closeModal: () => void }): JSX.E
         <form className="col s12 " onSubmit={onHandleFotmSubmit}>
           <div className="row" style={{ marginBottom: '0px' }}>
             <div className="input-field col s6">
+              {stringInp.isDirty && stringInp.isEmpty && stringInp.isString && (
+                <div className="errors">Mandatory field and letters only</div>
+              )}
               <input
                 id="first_name"
                 type="text"
                 className="validate"
-                value={firstName}
-                onChange={(e) => setFirstname(e.target.value)}
+                value={(stringInp.value, firstName)}
+                onBlur={(e) => stringInp.onBlur(e)}
+                onChange={(e) => {
+                  setFirstname(e.target.value);
+                  stringInp.onChange(e);
+                }}
+                required
               />
               <label htmlFor="first_name">First Name</label>
             </div>
             <div className="input-field col s6">
+              {stringInp.isDirty && stringInp.isEmpty && stringInp.isString && (
+                <div className="errors">Mandatory field and letters only</div>
+              )}
               <input
                 id="last_name"
                 type="text"
                 className="validate"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                value={(stringInp.value, lastName)}
+                onBlur={(e) => stringInp.onBlur(e)}
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                  stringInp.onChange(e);
+                }}
+                required
               />
               <label htmlFor="last_name">Last Name</label>
             </div>
@@ -86,18 +106,27 @@ function AddFormNewTableDates({ closeModal }: { closeModal: () => void }): JSX.E
                 mask={mask}
                 name="phone"
                 onAccept={(value, mask) => setPhone(String(value))}
+                required
               />
               <label htmlFor="phone">Phone</label>
             </div>
           </div>
           <div className="row" style={{ marginBottom: '0px' }}>
             <div className="input-field col s12">
+              {emailInp.isDirty && emailInp.isEmpty && emailInp.isEmailError && (
+                <div className="errors">Mandatory field and invalid email</div>
+              )}
               <input
                 id="email"
                 type="email"
                 className="validate"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={(emailInp.value, email)}
+                onBlur={(e) => emailInp.onBlur(e)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  emailInp.onChange(e);
+                }}
+                required
               />
               <label htmlFor="email">Email</label>
               <span className="helper-text" data-error="wrong" data-success="right">
@@ -156,12 +185,19 @@ function AddFormNewTableDates({ closeModal }: { closeModal: () => void }): JSX.E
                 className="validate"
                 value={zip}
                 onChange={(e) => setZip(e.target.value)}
+                required
               />
               <label htmlFor="zip">ZIP</label>
             </div>
           </div>
 
-          <button type="submit" className="waves-effect waves-light btn">
+          <button
+            type="submit"
+            className={
+              !stringInp || !emailInp
+                ? 'waves-effect waves-light btn disabled'
+                : 'waves-effect waves-light btn'
+            }>
             ADD
           </button>
           <button type="button" className="waves-effect waves-light btn" onClick={closeModal}>
