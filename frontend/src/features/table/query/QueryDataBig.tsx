@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './styles/query.css';
 
 function QueryDataBig({
   setReqQwrt,
@@ -15,11 +16,10 @@ function QueryDataBig({
 
   return (
     <a
-      //"btn-floating btn-large waves-effect waves-light purple lighten-3"
       className={
         loading === true
-          ? 'disabled'
-          : 'btn-floating btn-large waves-effect waves-light purple lighten-3'
+          ? 'disabled query-constr'
+          : 'btn-floating btn-large waves-effect waves-light purple lighten-3 query-constr'
       }
       onClick={onClickHandleBtn}>
       Big

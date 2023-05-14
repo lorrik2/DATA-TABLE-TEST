@@ -15,7 +15,7 @@ const Modal = (): JSX.Element => {
   };
 
   return (
-    <div>
+    <div style={{ zIndex: 1000 }}>
       <button onClick={openModal} type="button" className="waves-effect waves-light btn">
         Add Contact
       </button>

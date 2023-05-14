@@ -56,7 +56,7 @@ function AddFormNewTableDates({ closeModal }: { closeModal: () => void }): JSX.E
 
   return (
     <div className="forms">
-      <h5>Information</h5>
+      <h5 className="text-center">Information</h5>
       <div className="row" style={{ marginBottom: '0px' }}>
         <form className="col s12 " onSubmit={onHandleFotmSubmit}>
           <div className="row" style={{ marginBottom: '0px' }}>
@@ -144,7 +144,7 @@ function AddFormNewTableDates({ closeModal }: { closeModal: () => void }): JSX.E
               <label htmlFor="textarea1">Description</label>
             </div>
           </div>
-          <h5>Address</h5>
+          <h5 className="text-center">Address</h5>
           <div className="row" style={{ marginBottom: '0px' }}>
             <div className="input-field col s6">
               <input
@@ -195,12 +195,15 @@ function AddFormNewTableDates({ closeModal }: { closeModal: () => void }): JSX.E
             type="submit"
             className={
               !stringInp || !emailInp
-                ? 'waves-effect waves-light btn disabled'
-                : 'waves-effect waves-light btn'
+                ? 'waves-effect waves-light btn disabled text-center'
+                : 'waves-effect waves-light btn text-center'
             }>
             ADD
           </button>
-          <button type="button" className="waves-effect waves-light btn" onClick={closeModal}>
+          <button
+            type="button"
+            className="waves-effect waves-light btn text-center"
+            onClick={closeModal}>
             CLOSE
           </button>
         </form>
