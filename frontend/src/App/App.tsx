@@ -32,11 +32,11 @@ function App(): JSX.Element {
   }, [dispatch, reqQwr, loading]);
 
   useEffect(() => {
-    if (tableData.length === 1000) {
-      setTablePerData(50);
+    if (tableData.length === 32) {
+      setTablePerData(10);
       setContactData(tableData);
     } else {
-      setTablePerData(10);
+      setTablePerData(50);
       setContactData(tableData);
     }
   }, [tableData]);

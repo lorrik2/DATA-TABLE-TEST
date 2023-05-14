@@ -42,11 +42,12 @@ function TabaleList({
 
   const sortTableColumns = (sortBy: keyof TableData): void => {
     const copyData = tableData.concat();
-    const filteredData = copyData.filter((item, index, self) => {
-      return index === self.findIndex((t) => t.id === item.id);
-    });
-    const sortData = filteredData.sort((a, b) => {
+    const sortData = copyData.sort((a, b) => {
       return sortStatus ? (a[sortBy] < b[sortBy] ? 1 : -1) : a[sortBy] > b[sortBy] ? 1 : -1;
+    });
+
+    const filteredData = sortData.filter((item, index, self) => {
+      return index === self.findIndex((t) => t.id === item.id);
     });
 
     dispatch(sortTableDates(sortData));
@@ -86,7 +87,7 @@ function TabaleList({
         <tbody>
           {currentTable.map((data) => (
             <RowData
-              key={data.id}
+              key={data.id + data.phone}
               data={data}
               onHandleClickRow={onHandleClickRow}
               setStatus={setStatus}
